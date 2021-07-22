@@ -1,3 +1,4 @@
+//imports
 const express = require("express");
 const cors = require("cors");
 const getProducts = require("./routes/products");
@@ -8,7 +9,10 @@ const session = require("express-session");
 const flash = require("express-flash");
 const initializePassport = require("./passport-config");
 initializePassport(passport);
+const check = require("./middlewares/checkAuthenticate");
+const cart = require("./routes/cart");
 
+//initialise express app
 const app = express();
 const PORT = 3000;
 
@@ -22,35 +26,27 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      secure: false,
+      maxAge: 24 * 60 * 60 * 1000,
+    },
   })
 );
 app.use(passport.initialize());
 app.use(passport.session());
 
-//middlewares to indicate what pages can be accessed
-
-const checkAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect("/login");
-};
-const checkNotAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return res.redirect("login/");
-  }
-  next();
-};
-
 //ROUTES
 //products
-app.use("/products", checkAuthenticated, getProducts);
+app.use("/products", check.checkAuthenticated, getProducts);
 
 //user Login
-app.use("/login", checkNotAuthenticated, login);
+app.use("/login", check.checkNotAuthenticated, login);
 
 //user signup
-app.use("/signup", checkNotAuthenticated, signup);
+app.use("/signup", check.checkNotAuthenticated, signup);
+
+//user cart
+app.use("/cart", check.checkAuthenticated, cart);
 
 //user logout
 app.post("/logout", (req, res) => {
@@ -60,7 +56,7 @@ app.post("/logout", (req, res) => {
 });
 
 //example pages to redirect to
-app.get("/signup", checkNotAuthenticated, (res, req) => {
+app.get("/signup", check.checkNotAuthenticated, (res, req) => {
   res.send("this is sign up page");
 });
 app.get("/success", (req, res) => {
@@ -72,10 +68,6 @@ app.get("/registersuccess", (req, res) => {
 app.get("/failure", (req, res) => {
   res.send("email already exists");
 });
-
-//Cart
-//this will add items to cart and ajust properties IF the jwt is present
-//Order process the order
 
 // run server
 app.listen(PORT, () => {

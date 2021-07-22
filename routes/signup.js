@@ -3,6 +3,10 @@ const authorize = require("../models/auth-models");
 const authorizeInstance = new authorize();
 const bcrypt = require("bcrypt");
 
+router.get("/", (req, res) => {
+  res.send("This is the signup page");
+});
+
 router.post("/", async (req, res) => {
   const { email, password } = req.body;
   try {

@@ -1,4 +1,5 @@
 const pool = require("../db/db");
+const authorize = require("../models/auth-models");
 const router = require("express").Router();
 
 router.get("/", async (req, res) => {
@@ -19,5 +20,7 @@ router.get("/:id", async (req, res) => {
     console.error(error);
   }
 });
+
+// router.post("/:id", await pool.query());
 
 module.exports = router;

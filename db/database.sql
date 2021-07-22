@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE users (
     id serial primary key,
     first_name varchar(50) not null,
     last_name varchar(50) not null,
@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
     date_of_birth date
 );
 
-CREATE TABLE IF NOT EXISTS item (
+CREATE TABLE item (
     id varchar(100) primary key,
     item_name varchar(50) not null,
     model_number varchar(50) not null,
@@ -16,20 +16,16 @@ CREATE TABLE IF NOT EXISTS item (
     stock integer
 );
 
-CREATE TABLE IF NOT EXISTS orders (
+CREATE TABLE orders (
     id varchar(100) primary key,
-    users_id INTEGER,
-    item_id varchar(100),
+    users_id INTEGER REFERENCES users(id),
+    item_id varchar(100) REFERENCES item(id),
     quantity INTEGER, 
-    date_of_order date,
-    FOREIGN KEY (users_id) REFERENCES users(id),
-    FOREIGN KEY (item_id) REFERENCES item(id)
+    date_of_order date
 );
 
-CREATE TABLE IF NOT EXISTS cart (
-    users_id integer,
-    item_id varchar(100),
-    quantity INTEGER,
-    FOREIGN KEY (users_id) REFERENCES users(id),
-    FOREIGN KEY (item_id) REFERENCES item(id)
+CREATE TABLE cart (
+    users_id integer REFERENCES users(id),
+    item_id varchar(100) REFERENCES item(id),
+    quantity INTEGER
 );
