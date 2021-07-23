@@ -12,6 +12,7 @@ initializePassport(passport);
 const check = require("./middlewares/checkAuthenticate");
 const cart = require("./routes/cart");
 const user = require("./routes/user");
+const orders = require("./routes/orders");
 
 //initialise express app
 const app = express();
@@ -51,6 +52,9 @@ app.use("/cart", check.checkAuthenticated, cart);
 
 //user cart
 app.use("/user", check.checkAuthenticated, user);
+
+//user orders
+app.use("/orders", check.checkAuthenticated, orders);
 
 //user logout
 app.post("/logout", (req, res) => {
