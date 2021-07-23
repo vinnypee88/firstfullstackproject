@@ -11,6 +11,7 @@ const initializePassport = require("./passport-config");
 initializePassport(passport);
 const check = require("./middlewares/checkAuthenticate");
 const cart = require("./routes/cart");
+const user = require("./routes/user");
 
 //initialise express app
 const app = express();
@@ -47,6 +48,9 @@ app.use("/signup", check.checkNotAuthenticated, signup);
 
 //user cart
 app.use("/cart", check.checkAuthenticated, cart);
+
+//user cart
+app.use("/user", check.checkAuthenticated, user);
 
 //user logout
 app.post("/logout", (req, res) => {

@@ -1,26 +1,9 @@
-const pool = require("../db/db");
-const authorize = require("../models/auth-models");
 const router = require("express").Router();
+const products = require("../models/products-models");
+const productsInstance = new products();
 
-router.get("/", async (req, res) => {
-  try {
-    const getItems = await pool.query("SELECT * FROM item");
-    res.json(getItems.rows);
-  } catch (error) {
-    console.error(error);
-  }
-});
+router.get("/", productsInstance.getItems);
 
-router.get("/:id", async (req, res) => {
-  const { id } = req.params;
-  try {
-    const getItem = await pool.query("SELECT * FROM item WHERE id = $1", [id]);
-    res.send(getItem.rows);
-  } catch (error) {
-    console.error(error);
-  }
-});
-
-// router.post("/:id", await pool.query());
+router.get("/:id", productsInstance.getItem);
 
 module.exports = router;
