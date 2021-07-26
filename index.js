@@ -13,6 +13,7 @@ const check = require("./middlewares/checkAuthenticate");
 const cart = require("./routes/cart");
 const user = require("./routes/user");
 const orders = require("./routes/orders");
+const checkout = require("./routes/checkout");
 
 //initialise express app
 const app = express();
@@ -56,6 +57,9 @@ app.use("/user", check.checkAuthenticated, user);
 //user orders
 app.use("/orders", check.checkAuthenticated, orders);
 
+//user checkout
+app.use("/checkout", check.checkAuthenticated, checkout);
+
 //user logout
 app.post("/logout", (req, res) => {
   req.logout();
@@ -74,7 +78,10 @@ app.get("/registersuccess", (req, res) => {
   res.send("RegisterSucess");
 });
 app.get("/failure", (req, res) => {
-  res.send("email already exists");
+  res.send("summin failed");
+});
+app.get("/ordercomplete", (req, res) => {
+  res.send("ORDER PROCESSED");
 });
 
 // run server

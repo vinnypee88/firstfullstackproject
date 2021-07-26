@@ -7,7 +7,7 @@ class cart {
     const userId = req.session.passport.user;
     try {
       const getUsersCart = await pool.query(
-        "SELECT * FROM cart WHERE users_id = $1",
+        "SELECT cart.users_id, cart.item_id, cart.quantity, item.price, item.item_name, item.description FROM cart JOIN item ON cart.item_id=item.id WHERE users_id =$1",
         [userId]
       );
       res.json(getUsersCart.rows);
