@@ -16,20 +16,28 @@ class user {
   };
 
   updateUser = async (req, res) => {
+    console.log("entered updateUser function");
+    console.log(req.body.id);
+    console.log(req.params.id);
     try {
-      if (req.body.id !== req.params.id) {
+      if (req.body.id != req.params.id) {
         return res.redirect("/login");
       }
+      console.log("I am updating");
+
       const id = req.session.passport.user;
+      console.log(id);
       const { first_name, last_name, email, address, date_of_birth } = req.body;
       const updateUser = await pool.query(
         "UPDATE users SET first_name = $1, last_name = $2, email = $3, address = $4, date_of_birth = $5 WHERE id = $6",
         [first_name, last_name, email, address, date_of_birth, id]
       );
+      console.log("after Update user");
       const getUser = await pool.query(
         "SELECT id, first_name, last_name, email, address, date_of_birth FROM users WHERE id = $1",
         [id]
       );
+
       res.json(getUser.rows);
     } catch (error) {
       console.error(error);
@@ -37,10 +45,14 @@ class user {
   };
   deleteUser = async (req, res) => {
     try {
-      if (req.body.id !== req.params.id) {
+      if (req.body.id != req.params.id) {
         return res.redirect("/login");
       }
       const id = req.session.passport.user;
+      const deleteUserCart = await pool.query(
+        "DELETE FROM cart WHERE users_id = $1",
+        [id]
+      );
       const deleteUser = await pool.query("DELETE FROM users WHERE id = $1", [
         id,
       ]);

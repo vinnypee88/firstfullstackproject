@@ -1,0 +1,394 @@
+swagger: "2.0"
+
+info:
+  description: "Summer e-commerce REST API"
+  version: "1.0.0"
+  title: "E-commerce REST API"
+
+schemes:
+  - http
+
+host: localhost:3000
+
+basePath: "/"
+
+tags:
+  - name: "products"
+    description: "All products for sale"
+  - name: "login"
+    description: "Returns selected Product"
+  - name: "orders"
+    description: "Previous orders for logged in user"
+  - name: "login"
+    description: "logs in user"
+  - name: "signup"
+    description: "registers a new user"
+  - name: "cart"
+    description: "retrieves cart from logged in user"
+  - name: "user"
+    description: "user information"
+
+components:
+  schemas:
+    products:
+      example:
+        id: "1"
+        item_name: "hat"
+        model_number: "hat123"
+        description: "summer hat"
+        stock: 10
+        price: "$10.00"
+        image: "'./images/summerhat.jpg'"
+
+paths:
+  /products:
+    get:
+      tags:
+        - "products"
+      summary: "get all products"
+      description: "retrieve all available products for sale"
+      produces:
+        - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "200 Success"
+          schema:
+            $ref: "#components/schemas/products"
+            type: "object"
+            items:
+        "400":
+          description: "Invalid Order"
+          schema:
+            type: "object"
+            items:
+
+  /products/{id}:
+    get:
+      tags:
+        - "products"
+      summary: "Returns a product by the id"
+      description: "Returns a single product"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of product to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#components/schemas/products"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Product not found"
+
+  /orders:
+    get:
+      tags:
+        - "orders"
+      summary: "get previous orders for logged in user"
+      description: "Must be logged in first. get previous orders for logged in user"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "200 Success"
+          schema:
+        "400":
+          description: "Unable to connect to page"
+          schema:
+            type: "object"
+            items:
+
+  # Login the user
+  /login:
+    get:
+      tags:
+        - "login"
+      summary: "displays the login page"
+      description: ""
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "200 Success"
+          schema:
+        "400":
+          description: "Invalid Order"
+          schema:
+            type: "object"
+            items:
+    post:
+      tags:
+        - "login"
+      summary: "Logs user into the system"
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "email"
+          in: "query"
+          description: "The email for login"
+          required: true
+          type: "string"
+        - name: "password"
+          in: "query"
+          description: "The password for login in clear text"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "Invalid username/password supplied"
+
+  /logout:
+    post:
+      tags:
+        - "logout"
+      summary: "Logs user out of the system"
+      description: ""
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Logged out"
+        "400":
+          description: "Invalid action"
+  # Register a user
+  /signup:
+    get:
+      tags:
+        - "signup"
+      summary: "displays the page to register a new user"
+      description: ""
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "200 Success"
+          schema:
+        "400":
+          description: "Invalid Order"
+          schema:
+            type: "object"
+            items:
+    post:
+      tags:
+        - "signup"
+      summary: "registers user into the system"
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "registration info"
+          in: "body"
+          description: "The registration information"
+          required: true
+          type: "object"
+      responses:
+        "200":
+          description: "successful operation - you have been registered"
+          schema:
+            type: "string"
+        "400":
+          description: "Invalid username/password supplied"
+
+  # displays cart for logged in user
+  /cart:
+    get:
+      tags:
+        - "cart"
+      summary: "displays the cart if a user is logged in, otherwise it redirects user to login page. "
+      description: ""
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "200 Success"
+          schema:
+        "400":
+          description: "Action failed"
+          schema:
+            type: "object"
+            items:
+    post:
+      tags:
+        - "cart"
+      summary: "adds an item from the store to the users cart "
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "product item information"
+          in: "body"
+          description: "product item information"
+          required: true
+          type: "object"
+      responses:
+        "200":
+          description: "200 Success"
+          schema:
+        "400":
+          description: "Action failed"
+          schema:
+            type: "object"
+            items:
+    put:
+      tags:
+        - "cart"
+      summary: "updates an item from the store in the users cart "
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "product item information"
+          in: "body"
+          description: "product item information"
+          required: true
+          type: "object"
+      responses:
+        "200":
+          description: "200 Success"
+          schema:
+        "400":
+          description: "Action failed"
+          schema:
+            type: "object"
+            items:
+    delete:
+      tags:
+        - "cart"
+      summary: "deletes an item from the store in the users cart "
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "product item information"
+          in: "body"
+          description: "product item information"
+          required: true
+          type: "object"
+      responses:
+        "200":
+          description: "200 Success"
+          schema:
+        "400":
+          description: "Action failed"
+          schema:
+            type: "object"
+            items:
+
+  /user/{id}:
+    get:
+      tags:
+        - "user"
+      summary: "displays user information"
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of user to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "200 Success"
+          schema:
+        "400":
+          description: "Action failed"
+          schema:
+            type: "object"
+            items:
+    put:
+      tags:
+        - "user"
+      summary: "updates user information"
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of user to return"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "user information"
+          in: "body"
+          description: "user information"
+          required: true
+          type: "object"
+      responses:
+        "200":
+          description: "200 Success"
+          schema:
+        "400":
+          description: "Action failed"
+          schema:
+            type: "object"
+            items:
+    delete:
+      tags:
+        - "user"
+      summary: "deletes a users account "
+      description: ""
+      produces:
+        - "string"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of user to return"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "user information"
+          in: "body"
+          description: "user information"
+          required: true
+          type: "object"
+      responses:
+        "200":
+          description: "200 Success"
+          schema:
+        "400":
+          description: "Action failed"
+          schema:
+            type: "object"
+            items:
+
+  /checkout:
+    post:
+      tags:
+        - "checkout"
+      summary: "processes the order thats in the logged in cart."
+      description: ""
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "order processed"
+          schema:
+            type: "string"
+        "400":
+          description: "Something went wrong"

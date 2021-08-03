@@ -14,10 +14,20 @@ const cart = require("./routes/cart");
 const user = require("./routes/user");
 const orders = require("./routes/orders");
 const checkout = require("./routes/checkout");
+const swaggerUI = require("swagger-ui-express");
+const yaml = require("js-yaml");
+const fs = require("fs");
+const path = require("path");
 
 //initialise express app
 const app = express();
 const PORT = 3000;
+
+// //swagger code
+const swaggerDocument = yaml.safeLoad(
+  fs.readFileSync(path.resolve(__dirname, "./swagger.yml"), "utf8")
+);
+app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 //Middlewares
 app.use(express.json());
@@ -40,7 +50,7 @@ app.use(passport.session());
 
 //ROUTES
 //products
-app.use("/products", check.checkAuthenticated, getProducts);
+app.use("/products", getProducts);
 
 //user Login
 app.use("/login", check.checkNotAuthenticated, login);
@@ -67,7 +77,7 @@ app.post("/logout", (req, res) => {
   //this will log the user out.
 });
 
-//example pages to redirect to
+//example pages to redirect to for testing purposes
 app.get("/signup", check.checkNotAuthenticated, (res, req) => {
   res.send("this is sign up page");
 });
