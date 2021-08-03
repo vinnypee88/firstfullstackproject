@@ -78,9 +78,6 @@ app.post("/logout", (req, res) => {
 });
 
 //example pages to redirect to for testing purposes
-app.get("/signup", check.checkNotAuthenticated, (res, req) => {
-  res.send("this is sign up page");
-});
 app.get("/success", (req, res) => {
   res.send("loginSucess");
 });
