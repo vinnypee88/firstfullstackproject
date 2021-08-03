@@ -1,19 +1,23 @@
-//imports
+//middleware imports
 const express = require("express");
 const cors = require("cors");
-const getProducts = require("./routes/products");
-const login = require("./routes/login");
-const signup = require("./routes/signup");
 const passport = require("passport");
 const session = require("express-session");
 const flash = require("express-flash");
 const initializePassport = require("./passport-config");
 initializePassport(passport);
 const check = require("./middlewares/checkAuthenticate");
+
+//routes imports
 const cart = require("./routes/cart");
 const user = require("./routes/user");
 const orders = require("./routes/orders");
 const checkout = require("./routes/checkout");
+const getProducts = require("./routes/products");
+const login = require("./routes/login");
+const signup = require("./routes/signup");
+
+//swagger imports
 const swaggerUI = require("swagger-ui-express");
 const yaml = require("js-yaml");
 const fs = require("fs");
@@ -74,21 +78,6 @@ app.use("/checkout", check.checkAuthenticated, checkout);
 app.post("/logout", (req, res) => {
   req.logout();
   res.redirect("/login");
-  //this will log the user out.
-});
-
-//example pages to redirect to for testing purposes
-app.get("/success", (req, res) => {
-  res.send("loginSucess");
-});
-app.get("/registersuccess", (req, res) => {
-  res.send("RegisterSucess");
-});
-app.get("/failure", (req, res) => {
-  res.send("summin failed");
-});
-app.get("/ordercomplete", (req, res) => {
-  res.send("ORDER PROCESSED");
 });
 
 // run server

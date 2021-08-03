@@ -38,7 +38,7 @@ class checkout {
       [userId]
     );
 
-    res.redirect("/ordercomplete");
+    res.send("processed");
   };
 }
 

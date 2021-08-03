@@ -14,9 +14,9 @@ router.post("/", async (req, res) => {
     if (!emailCheck) {
       const hashedPassword = await bcrypt.hash(password, 10);
       authorizeInstance.register(req.body, hashedPassword);
-      res.redirect("/registersuccess");
+      res.send("/registersuccess");
     } else {
-      res.redirect("/failure");
+      res.send("/failure");
     }
   } catch (error) {}
 });
