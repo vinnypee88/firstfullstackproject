@@ -16,7 +16,6 @@ class cart {
     }
   };
   addToCart = async (req, res) => {
-    //URGENT : need to add logic to avoid duplicate posts, instead adjust the quantities of an existing record
     //add new products to cart
     const userId = req.session.passport.user;
     const { itemId, quantity } = req.body; //these values will come from client side forms

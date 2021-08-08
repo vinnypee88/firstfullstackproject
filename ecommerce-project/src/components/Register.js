@@ -9,7 +9,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
-  const [verifyPassword, setVerifyPassword] = useState("");
+  // const [verifyPassword, setVerifyPassword] = useState("");
 
   const dispatch = useDispatch();
 
@@ -51,8 +51,8 @@ const Register = () => {
         <input onChange={(e) => setAddress(e.target.value)} />
         <label>password</label>
         <input onChange={(e) => setPassword(e.target.value)} />
-        <label>verify password</label>
-        <input onChange={(e) => setVerifyPassword(e.target.value)} />
+        {/* <label>verify password</label>
+        <input onChange={(e) => setVerifyPassword(e.target.value)} /> */}
         {/* add some logic to disable button if passwords do not match */}
         <button type="submit">Register</button>
       </form>

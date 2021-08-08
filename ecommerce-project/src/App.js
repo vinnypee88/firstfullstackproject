@@ -6,8 +6,16 @@ import Register from "./components/Register";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import Cart from "./components/Cart";
+import { useEffect } from "react";
+import { getProducts } from "./features/productSlice";
+import { useDispatch } from "react-redux";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getProducts());
+  });
+
   return (
     <BrowserRouter>
       <div className="App">

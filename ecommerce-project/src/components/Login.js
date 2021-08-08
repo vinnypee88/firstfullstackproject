@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { loginUserApi, logoutApi, selectLoggedIn } from "../features/userSlice";
+import { loginUserApi, logoutApi } from "../features/userSlice";
 import { useDispatch } from "react-redux";
 
 const Login = () => {
