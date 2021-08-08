@@ -1,3 +1,4 @@
+//CRUD functionality for the item table
 const router = require("express").Router();
 const products = require("../models/products-models");
 const productsInstance = new products();

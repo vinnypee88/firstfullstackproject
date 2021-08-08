@@ -1,6 +1,4 @@
-//when add to cart is clicked, check auth middleware runs then product is entered into table cart in DB
-//put (update) quantity of cart,
-//read cart
+//CRUD operations on the users cart
 const router = require("express").Router();
 const cart = require("../models/cart-model");
 const cartInstance = new cart();

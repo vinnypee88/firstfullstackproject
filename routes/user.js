@@ -1,9 +1,9 @@
-//this should retrieve user information, allow user to update information, and delete account.
+//CRUD functionality for users account information
 const router = require("express").Router();
 const user = require("../models/user-models");
 const userInstance = new user();
 
-router.get("/:id", userInstance.getUser);
+// router.get("/", userInstance.getUser);
 
 router.put("/:id", userInstance.updateUser);
 

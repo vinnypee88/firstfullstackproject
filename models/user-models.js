@@ -1,19 +1,19 @@
 const pool = require("../db/db");
 
 class user {
-  getUser = async (req, res) => {
-    //The logged in user can only access their user information
-    const id = req.session.passport.user;
-    try {
-      const getUser = await pool.query(
-        "SELECT id, first_name, last_name, email, address, date_of_birth FROM users WHERE id = $1",
-        [id]
-      );
-      res.json(getUser.rows);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // getUser = async (req, res) => {
+  //   //The logged in user can only access their user information
+  //   const id = req.session.passport.user;
+  //   try {
+  //     const getUser = await pool.query(
+  //       "SELECT id, first_name, last_name, email, address, date_of_birth FROM users WHERE id = $1",
+  //       [id]
+  //     );
+  //     res.json(getUser.rows);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   updateUser = async (req, res) => {
     try {

@@ -25,7 +25,7 @@ const path = require("path");
 
 //initialise express app
 const app = express();
-const PORT = 3000;
+const PORT = 4000;
 
 // //swagger code
 const swaggerDocument = yaml.safeLoad(
@@ -73,6 +73,8 @@ app.use("/orders", check.checkAuthenticated, orders);
 
 //user checkout
 app.use("/checkout", check.checkAuthenticated, checkout);
+
+app.use("/failed", (req, res) => res.send(false));
 
 //user logout
 app.post("/logout", (req, res) => {

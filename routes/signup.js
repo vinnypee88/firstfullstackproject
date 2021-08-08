@@ -1,3 +1,4 @@
+//handles the logic to register a user,
 const router = require("express").Router();
 const authorize = require("../models/auth-models");
 const authorizeInstance = new authorize();
@@ -13,10 +14,17 @@ router.post("/", async (req, res) => {
     const emailCheck = await authorizeInstance.getUserByEmail(email);
     if (!emailCheck) {
       const hashedPassword = await bcrypt.hash(password, 10);
-      authorizeInstance.register(req.body, hashedPassword);
-      res.send("/registersuccess");
+      const register = await authorizeInstance.register(
+        req.body,
+        hashedPassword
+      );
+      if (!register) {
+        res.json("Invalid entries");
+      } else {
+        return res.json(register.rows[0]);
+      }
     } else {
-      res.send("/failure");
+      res.json("User already exists");
     }
   } catch (error) {}
 });
