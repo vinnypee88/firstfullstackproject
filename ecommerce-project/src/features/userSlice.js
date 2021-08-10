@@ -6,6 +6,7 @@ export const loginUserApi = createAsyncThunk(
   async (credentials) => {
     const options = {
       method: "POST",
+      credentials: "include",
       body: JSON.stringify(credentials),
       headers: {
         "Content-Type": "application/json",
@@ -13,6 +14,7 @@ export const loginUserApi = createAsyncThunk(
     };
     const loginApi = await fetch("http://localhost:4000/login", options);
     const response = await loginApi.json();
+    console.log(response);
     return response;
   }
 );
@@ -20,6 +22,7 @@ export const loginUserApi = createAsyncThunk(
 export const logoutApi = createAsyncThunk("userSlice/logoutApi", async () => {
   const options = {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
@@ -35,6 +38,7 @@ export const registerUserApi = createAsyncThunk(
     const options = {
       method: "POST",
       body: JSON.stringify(credentials),
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -67,20 +71,19 @@ const userSlice = createSlice({
     [loginUserApi.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.hasError = false;
-      //This section will take the response from the login api call and update the state with user info and cart info
-      //check if user credentials valid
-      if (!action.payload.userInfo) {
+      if (action.payload[0].id === undefined || action.payload[0].id === null) {
         //can potentially use useEffect hook to run this outside of the slice action
         alert("incorrect credentials");
         return;
       } else {
-        state.user.firstName = action.payload.userInfo[0].first_name;
-        state.user.lastName = action.payload.userInfo[0].last_name;
-        state.user.email = action.payload.userInfo[0].email;
-        state.user.address = action.payload.userInfo[0].address;
-        state.user.DOB = action.payload.userInfo[0].date_of_birth;
-        state.user.cart = action.payload.userCart;
+        state.user.firstName = action.payload[0].first_name;
+        state.user.lastName = action.payload[0].last_name;
+        state.user.email = action.payload[0].email;
+        state.user.address = action.payload[0].address;
+        state.user.DOB = action.payload[0].date_of_birth;
+        state.user.cart = action.payload[1];
         state.loggedIn = true;
+        return;
       }
     },
     [loginUserApi.rejected]: (state, action) => {

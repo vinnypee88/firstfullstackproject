@@ -2,7 +2,14 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //get orders from logged in user
 export const getOrders = createAsyncThunk("orderSlice/getOrders", async () => {
-  const orders = await fetch("http://localhost:4000/orders");
+  const options = {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const orders = await fetch("http://localhost:4000/orders", options);
   const response = await orders.json();
   console.log(response);
   return response;

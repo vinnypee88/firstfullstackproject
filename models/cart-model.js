@@ -1,16 +1,14 @@
 const pool = require("../db/db");
 
 class cart {
-  getCart = async (req, res) => {
+  getCart = async (id) => {
     //get users current cart
-
-    const userId = req.session.passport.user;
     try {
       const getUsersCart = await pool.query(
         "SELECT cart.users_id, cart.item_id, cart.quantity, item.price, item.item_name, item.description FROM cart JOIN item ON cart.item_id=item.id WHERE users_id =$1",
-        [userId]
+        [id]
       );
-      res.json(getUsersCart.rows);
+      return getUsersCart.rows;
     } catch (error) {
       console.error(error);
     }

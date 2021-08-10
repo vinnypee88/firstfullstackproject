@@ -1,7 +1,27 @@
 //this file contains the functions to retrieve data from the db
 const pool = require("../db/db");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 class authorize {
+  createToken(id) {
+    return jwt.sign({ id }, "vinod secret string", {
+      expiresIn: 3 * 24 * 60 * 60,
+    });
+  }
+
+  async login(email, password) {
+    const user = await this.getUserByEmail(email);
+    if (user) {
+      const auth = await bcrypt.compare(password, user.password);
+      if (auth) {
+        return user;
+      }
+      throw Error("incorrect password");
+    }
+    throw Error("incorrect email");
+  }
+
   async getUserByEmail(email) {
     try {
       const result = await pool.query("SELECT * FROM users WHERE email = $1", [

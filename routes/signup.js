@@ -18,10 +18,15 @@ router.post("/", async (req, res) => {
         req.body,
         hashedPassword
       );
+
       if (!register) {
         res.json("Invalid entries");
       } else {
-        return res.json(register.rows[0]);
+        const token = authorizeInstance.createToken(register.rows.id);
+        res.cookie("jwt", token, {
+          maxAge: 3 * 24 * 60 * 60 * 1000,
+        });
+        return res.status(201).json(register.rows[0]);
       }
     } else {
       res.json("User already exists");

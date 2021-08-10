@@ -33,8 +33,7 @@ app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors());
-
+app.use(cors({ origin: true, credentials: true }));
 //ROUTES
 //products
 app.use("/products", getProducts);
@@ -61,7 +60,10 @@ app.use("/checkout", checkout);
 app.use("/failed", (req, res) => res.send(false));
 
 //user logout
-app.post("/logout", (req, res) => res.redirect("/login"));
+app.use("/logout", (req, res) => {
+  res.cookie("jwt", "", { maxAge: 1 });
+  res.redirect("/products");
+});
 
 // run server
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
