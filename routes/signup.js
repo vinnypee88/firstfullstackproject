@@ -26,7 +26,9 @@ router.post("/", async (req, res) => {
     } else {
       res.json("User already exists");
     }
-  } catch (error) {}
+  } catch (error) {
+    res.status(404).send("error connecting to Database");
+  }
 });
 
 module.exports = router;

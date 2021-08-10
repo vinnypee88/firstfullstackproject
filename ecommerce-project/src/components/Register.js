@@ -30,7 +30,8 @@ const Register = () => {
       } else if (response.payload === "User already exists") {
         alert("User already exists");
       } else {
-        dispatch(loginUserApi({ email, password }));
+        return;
+        // dispatch(loginUserApi({ email, password }));
       }
     });
   };
