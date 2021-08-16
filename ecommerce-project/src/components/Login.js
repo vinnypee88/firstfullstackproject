@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { loginUserApi, logoutApi } from "../features/userSlice";
+import { loginUserApi } from "../features/userSlice";
 import { useDispatch } from "react-redux";
 
 const Login = () => {
@@ -16,23 +16,41 @@ const Login = () => {
     };
     dispatch(loginUserApi(credentials));
   };
-
-  const logout = () => {
-    dispatch(logoutApi());
-  };
-
   return (
     <>
-      <h1>Login Page</h1>
-      <form onSubmit={loginUser}>
-        <label>email</label>
-        <input onChange={(e) => setEmail(e.target.value)} />
-        <label>password</label>
-        <input onChange={(e) => setPassword(e.target.value)} />
-        <button type="submit">Login</button>
-      </form>
+      <div className="container">
+        <h1 className="mt-5">Login Page</h1>
 
-      <button onClick={logout}>Logout</button>
+        <form onSubmit={loginUser}>
+          <div className="mb-3">
+            <label htmlFor="exampleInputEmail1" className="form-label">
+              Email address
+            </label>
+            <input
+              type="email"
+              className="form-control"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="exampleInputPassword1" className="form-label">
+              Password
+            </label>
+            <input
+              type="password"
+              className="form-control"
+              id="exampleInputPassword1"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          <button type="submit" className="btn btn-success">
+            Log in
+          </button>
+        </form>
+      </div>
     </>
   );
 };

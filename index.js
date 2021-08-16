@@ -39,22 +39,22 @@ app.use(cors({ origin: true, credentials: true }));
 app.use("/products", getProducts);
 
 //user Login
-app.use("/login", login);
+app.use("/login", check.checkNotAuthenticated, login);
 
 //user signup
-app.use("/signup", signup);
+app.use("/signup", check.checkNotAuthenticated, signup);
 
 //user cart
-app.use("/cart", cart);
+app.use("/cart", check.checkAuthenticated, cart);
 
 //user cart
-app.use("/user", user);
+app.use("/user", check.checkAuthenticated, user);
 
 //user orders
-app.use("/orders", orders);
+app.use("/orders", check.checkAuthenticated, orders);
 
 //user checkout
-app.use("/checkout", checkout);
+app.use("/checkout", check.checkAuthenticated, checkout);
 
 //failed route
 app.use("/failed", (req, res) => res.send(false));

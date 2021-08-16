@@ -11,7 +11,6 @@ export const getOrders = createAsyncThunk("orderSlice/getOrders", async () => {
   };
   const orders = await fetch("http://localhost:4000/orders", options);
   const response = await orders.json();
-  console.log(response);
   return response;
 });
 
@@ -30,7 +29,7 @@ const orderSlice = createSlice({
     [getOrders.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.hasError = false;
-      console.log(action.payload);
+      state.orders = action.payload;
     },
     [getOrders.rejected]: (state, action) => {
       state.isLoading = false;

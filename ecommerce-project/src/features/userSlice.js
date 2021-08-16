@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Logging in the user will obtain user information and the cart information and add it to the store
+
 export const loginUserApi = createAsyncThunk(
   "userSlice/loginUserApi",
   async (credentials) => {
@@ -13,8 +14,9 @@ export const loginUserApi = createAsyncThunk(
       },
     };
     const loginApi = await fetch("http://localhost:4000/login", options);
+
     const response = await loginApi.json();
-    console.log(response);
+
     return response;
   }
 );
@@ -45,6 +47,57 @@ export const registerUserApi = createAsyncThunk(
     };
     const registerApi = await fetch("http://localhost:4000/signup", options);
     const response = await registerApi.json();
+
+    return response;
+  }
+);
+
+export const addToCartApi = createAsyncThunk(
+  "userSlice/addToCartApi",
+  async (itemToAdd) => {
+    const options = {
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify(itemToAdd),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const add = await fetch("http://localhost:4000/cart", options);
+    const response = await add.json();
+    return response;
+  }
+);
+export const reduceQuantityApi = createAsyncThunk(
+  "userSlice/reduceQuantityApi",
+  async (itemToReduce) => {
+    const options = {
+      method: "PUT",
+      credentials: "include",
+      body: JSON.stringify(itemToReduce),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const minus = await fetch("http://localhost:4000/cart", options);
+    const response = await minus.json();
+    return response;
+  }
+);
+
+export const deleteItemApi = createAsyncThunk(
+  "userSlice/deleteItemApi",
+  async (itemToDelete) => {
+    const options = {
+      method: "DELETE",
+      credentials: "include",
+      body: JSON.stringify(itemToDelete),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const add = await fetch("http://localhost:4000/cart", options);
+    const response = await add.json();
     return response;
   }
 );
@@ -105,6 +158,7 @@ const userSlice = createSlice({
       state.user.DOB = [];
       state.user.cart = [];
       state.loggedIn = false;
+      //somehow set orders to zero on orderSlice
     },
     [logoutApi.rejected]: (state, action) => {
       state.isLoading = false;
@@ -117,8 +171,53 @@ const userSlice = createSlice({
     [registerUserApi.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.hasError = false;
+      state.user.firstName = action.payload.first_name;
+      state.user.lastName = action.payload.last_name;
+      state.user.email = action.payload.email;
+      state.user.address = action.payload.address;
+      state.user.DOB = action.payload.date_of_birth;
+      state.loggedIn = true;
     },
     [registerUserApi.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.hasError = true;
+    },
+    [addToCartApi.pending]: (state, action) => {
+      state.isLoading = true;
+      state.hasError = false;
+    },
+    [addToCartApi.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.hasError = false;
+      state.user.cart = action.payload;
+    },
+    [addToCartApi.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.hasError = true;
+    },
+    [reduceQuantityApi.pending]: (state, action) => {
+      state.isLoading = true;
+      state.hasError = false;
+    },
+    [reduceQuantityApi.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.hasError = false;
+      state.user.cart = action.payload;
+    },
+    [reduceQuantityApi.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.hasError = true;
+    },
+    [deleteItemApi.pending]: (state, action) => {
+      state.isLoading = true;
+      state.hasError = false;
+    },
+    [deleteItemApi.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.hasError = false;
+      state.user.cart = action.payload;
+    },
+    [deleteItemApi.rejected]: (state, action) => {
       state.isLoading = false;
       state.hasError = true;
     },
@@ -127,3 +226,5 @@ const userSlice = createSlice({
 
 export default userSlice.reducer;
 export const selectUser = (state) => state.userSlice.user;
+export const selectLoggedIn = (state) => state.userSlice.loggedIn;
+export const selectCart = (state) => state.userSlice.user.cart;

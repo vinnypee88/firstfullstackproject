@@ -21,7 +21,7 @@ router.post("/", async function (req, res) {
     return res.json([user, usersCart]);
   } catch (error) {
     console.log(error);
-    res.send("Invalid Credentials");
+    res.json("Invalid Credentials");
   }
 });
 

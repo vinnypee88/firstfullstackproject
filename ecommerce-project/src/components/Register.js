@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { registerUserApi, loginUserApi } from "../features/userSlice";
+import { registerUserApi } from "../features/userSlice";
 import { useDispatch } from "react-redux";
 
 const Register = () => {
@@ -31,32 +31,94 @@ const Register = () => {
         alert("User already exists");
       } else {
         return;
-        // dispatch(loginUserApi({ email, password }));
       }
     });
   };
 
   return (
     <>
-      <h1>Register Page</h1>
-      <form onSubmit={registerUser}>
-        <label>First Name</label>
-        <input onChange={(e) => setFirstName(e.target.value)} />
-        <label>Last Name</label>
-        <input onChange={(e) => setLastName(e.target.value)} />
-        <label>date of birth</label>
-        <input onChange={(e) => setDateOfBirth(e.target.value)} />
-        <label>email</label>
-        <input onChange={(e) => setEmail(e.target.value)} />
-        <label>address</label>
-        <input onChange={(e) => setAddress(e.target.value)} />
-        <label>password</label>
-        <input onChange={(e) => setPassword(e.target.value)} />
-        {/* <label>verify password</label>
-        <input onChange={(e) => setVerifyPassword(e.target.value)} /> */}
-        {/* add some logic to disable button if passwords do not match */}
-        <button type="submit">Register</button>
-      </form>
+      <div className="container">
+        <h1 className="mt-5">Register Page</h1>
+        <form onSubmit={registerUser}>
+          <div className="mb-3">
+            <label htmlFor="first-name" className="form-label">
+              First Name
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="first-name"
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="last-name" className="form-label">
+              Last Name
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="last-name"
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="address" className="form-label">
+              Date of Birth
+            </label>
+            <input
+              type="date"
+              className="form-control"
+              id="date"
+              onChange={(e) => setDateOfBirth(e.target.value)}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="address" className="form-label">
+              Address
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="address"
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="exampleInputEmail1" className="form-label">
+              Email address
+            </label>
+            <input
+              type="email"
+              className="form-control"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <div id="emailHelp" className="form-text">
+              We'll never share your email with anyone else.
+            </div>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="exampleInputPassword1" className="form-label">
+              Password
+            </label>
+            <input
+              type="password"
+              className="form-control"
+              id="exampleInputPassword1"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          <button className="btn btn-success" type="submit">
+            Register
+          </button>
+        </form>
+      </div>
     </>
   );
 };
