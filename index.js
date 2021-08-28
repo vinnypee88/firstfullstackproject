@@ -38,6 +38,12 @@ app.use(cors({ origin: true, credentials: true }));
 //products
 app.use("/products", getProducts);
 
+//stripe
+
+const stripe = require("stripe")(
+  "sk_test_51JTPxbB6tcB5SeSOujBU6RvQBODQ4BtmL6zQMMOzpoEL6VSFUTL7ddcPEKPiLc7N1FqtmYKdR6ROvG59dps5K7qV00EorIhxf4"
+);
+
 //user Login
 app.use("/login", check.checkNotAuthenticated, login);
 

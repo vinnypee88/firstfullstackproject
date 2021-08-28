@@ -1,8 +1,8 @@
 import React from "react";
-import { getOrders } from "../features/orderSlice";
 import { useDispatch } from "react-redux";
 import {
   addToCartApi,
+  checkoutApi,
   reduceQuantityApi,
   selectCart,
 } from "../features/userSlice";
@@ -20,9 +20,6 @@ var formatter = new Intl.NumberFormat("en-US", {
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const getPreviousOrders = () => {
-    dispatch(getOrders());
-  };
 
   const cartItems = useSelector(selectCart);
 
@@ -44,6 +41,10 @@ const Cart = () => {
     } else {
       dispatch(reduceQuantityApi(item));
     }
+  };
+  const checkout = async () => {
+    await dispatch(checkoutApi());
+    await dispatch(addToCartApi());
   };
 
   return (
@@ -97,25 +98,19 @@ const Cart = () => {
             </>
           );
         })}
-        <div className="card">
+        <div className="card mb-5">
           <h5 className="card-header">Cart Summary</h5>
           <div className="card-body">
             <h5 className="card-title">Cost {formatter.format(totalCost)}</h5>
-            <p className="card-text">VAT {formatter.format(totalCost * 0.2)}</p>
+            <p className="card-text">VAT {formatter.format(totalCost * 0)}</p>
             <h5 className="card-title text-success fw-bold">
-              Total Cost + VAT {formatter.format(totalCost * 1.2)}
+              Total Cost + VAT {formatter.format(totalCost * 1.0)}
             </h5>
-            <button className="btn btn-primary">Checkout</button>
+            <button className="btn btn-primary" onClick={() => checkout()}>
+              Checkout
+            </button>
           </div>
         </div>
-
-        <br></br>
-        <button
-          className="btn btn-warning mt-5"
-          onClick={() => getPreviousOrders()}
-        >
-          Previous Orders (test)
-        </button>
       </div>
     </>
   );

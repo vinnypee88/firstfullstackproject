@@ -5,4 +5,6 @@ const ordersInstance = new orders();
 
 router.get("/", ordersInstance.getOrders);
 
+router.post("/details", ordersInstance.getOrderDetails);
+
 module.exports = router;

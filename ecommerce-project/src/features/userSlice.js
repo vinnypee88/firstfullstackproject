@@ -14,9 +14,24 @@ export const loginUserApi = createAsyncThunk(
       },
     };
     const loginApi = await fetch("http://localhost:4000/login", options);
-
     const response = await loginApi.json();
+    return response;
+  }
+);
 
+export const updateUserInfo = createAsyncThunk(
+  "userSlice/updateUserInfo",
+  async (info) => {
+    const options = {
+      method: "PUT",
+      credentials: "include",
+      body: JSON.stringify(info),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const userUpdate = await fetch("http://localhost:4000/user", options);
+    const response = await userUpdate.json();
     return response;
   }
 );
@@ -47,7 +62,6 @@ export const registerUserApi = createAsyncThunk(
     };
     const registerApi = await fetch("http://localhost:4000/signup", options);
     const response = await registerApi.json();
-
     return response;
   }
 );
@@ -98,6 +112,22 @@ export const deleteItemApi = createAsyncThunk(
     };
     const add = await fetch("http://localhost:4000/cart", options);
     const response = await add.json();
+    return response;
+  }
+);
+
+export const checkoutApi = createAsyncThunk(
+  "userSlice/checkoutApi",
+  async () => {
+    const options = {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const checkout = await fetch("http://localhost:4000/checkout", options);
+    const response = await checkout.json();
     return response;
   }
 );
@@ -218,6 +248,23 @@ const userSlice = createSlice({
       state.user.cart = action.payload;
     },
     [deleteItemApi.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.hasError = true;
+    },
+    [updateUserInfo.pending]: (state, action) => {
+      state.isLoading = true;
+      state.hasError = false;
+    },
+    [updateUserInfo.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.hasError = false;
+      state.user.firstName = action.payload[0].first_name;
+      state.user.lastName = action.payload[0].last_name;
+      state.user.email = action.payload[0].email;
+      state.user.address = action.payload[0].address;
+      state.user.DOB = action.payload[0].date_of_birth;
+    },
+    [updateUserInfo.rejected]: (state, action) => {
       state.isLoading = false;
       state.hasError = true;
     },

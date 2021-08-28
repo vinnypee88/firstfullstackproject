@@ -79,7 +79,19 @@ const Header = () => {
                   </Link>
                 ) : null}
               </li>
-              <li className="nav-item"></li>
+              <li className="nav-item">
+                {loggedIn ? (
+                  <Link
+                    className="nav-link active"
+                    aria-current="page"
+                    to="/user"
+                  >
+                    <button type="button" className="btn btn-primary">
+                      User
+                    </button>
+                  </Link>
+                ) : null}
+              </li>
             </ul>
           </div>
         </div>

@@ -6,6 +6,7 @@ import Register from "./components/Register";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import Cart from "./components/Cart";
+import User from "./components/User";
 import { useEffect } from "react";
 import { getProducts } from "./features/productSlice";
 import { selectLoggedIn } from "../src/features/userSlice";
@@ -33,6 +34,7 @@ function App() {
         </Route>
         <Route path="/cart" component={Cart} exact />
         <Route path="/cart/:id" component={Cart} />
+        <Route path="/user" component={User} />
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>

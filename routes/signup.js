@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
       if (!register) {
         res.json("Invalid entries");
       } else {
-        const token = authorizeInstance.createToken(register.rows.id);
+        const token = authorizeInstance.createToken(register.rows[0].id);
         res.cookie("jwt", token, {
           maxAge: 3 * 24 * 60 * 60 * 1000,
         });

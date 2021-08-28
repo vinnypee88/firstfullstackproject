@@ -3,8 +3,8 @@ const router = require("express").Router();
 const user = require("../models/user-models");
 const userInstance = new user();
 
-router.put("/:id", userInstance.updateUser);
+router.put("/", userInstance.updateUser);
 
-router.delete("/:id", userInstance.deleteUser);
+router.delete("/", userInstance.deleteUser);
 
 module.exports = router;
