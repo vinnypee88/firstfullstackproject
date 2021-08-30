@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   addToCartApi,
@@ -8,6 +8,7 @@ import {
 } from "../features/userSlice";
 import { useSelector } from "react-redux";
 import { deleteItemApi } from "../features/userSlice";
+import StripeCheckout from "react-stripe-checkout";
 
 var formatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -20,12 +21,17 @@ var formatter = new Intl.NumberFormat("en-US", {
 
 const Cart = () => {
   const dispatch = useDispatch();
-
   const cartItems = useSelector(selectCart);
 
   let totalCost = 0;
   cartItems.forEach((item) => {
     totalCost += parseFloat(item.price * item.quantity);
+  });
+
+  const [product, setproduct] = useState({
+    name: "Users Cart Items",
+    price: totalCost,
+    Productby: "Summer Store",
   });
 
   const deleteItem = (itemId) => {
@@ -45,6 +51,28 @@ const Cart = () => {
   const checkout = async () => {
     await dispatch(checkoutApi());
     await dispatch(addToCartApi());
+  };
+
+  const makePayment = (token) => {
+    const body = {
+      token,
+      product,
+    };
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    return fetch(`http://localhost:4000/payment`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(body),
+    })
+      .then((response) => {
+        console.log(response);
+        const { status } = response;
+        console.log("STATUS", status);
+      })
+      .then(() => checkout())
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -106,9 +134,15 @@ const Cart = () => {
             <h5 className="card-title text-success fw-bold">
               Total Cost + VAT {formatter.format(totalCost * 1.0)}
             </h5>
-            <button className="btn btn-primary" onClick={() => checkout()}>
-              Checkout
-            </button>
+
+            <StripeCheckout
+              stripeKey="pk_test_51JTPxbB6tcB5SeSOYpXo5JMEeXOJ4TqTsNSkjmf8Ru6c0mkpKvBkk9OTzt0vzBoHfrlUWLClH5eMnYK5rtkeRzHi00hlTtqoE8"
+              token={makePayment}
+              name="Checkout"
+              amount={totalCost * 100}
+            >
+              <button className="btn btn-primary">Pay with Card</button>
+            </StripeCheckout>
           </div>
         </div>
       </div>

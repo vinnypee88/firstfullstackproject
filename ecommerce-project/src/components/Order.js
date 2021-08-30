@@ -10,12 +10,14 @@ const Order = ({ id, date, cost, items }) => {
   };
 
   return (
-    <div class="card">
-      <h5 class="card-header">Order Id - {id}</h5>
-      <div class="card-body">
-        <p class="card-text fw-bold text-success">Date of Purchase - {date}</p>
-        <p class="card-text fw-bold">Total Cost - {cost}</p>
-        <button class="btn btn-primary" id={id} onClick={orderDetails}>
+    <div className="card">
+      <h5 className="card-header">Order Id - {id}</h5>
+      <div className="card-body">
+        <p className="card-text fw-bold text-success">
+          Date of Purchase - {date}
+        </p>
+        <p className="card-text fw-bold">Total Cost - ${cost}</p>
+        <button className="btn btn-primary" id={id} onClick={orderDetails}>
           View order details
         </button>
         {items ? <OrderedItems items={items} /> : ""}

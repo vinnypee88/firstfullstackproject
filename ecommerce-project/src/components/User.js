@@ -80,7 +80,7 @@ const User = () => {
 
         <button
           type="button"
-          class="btn btn-warning"
+          className="btn btn-warning"
           data-bs-toggle="modal"
           data-bs-target="#staticBackdrop"
         >
@@ -96,15 +96,15 @@ const User = () => {
         </button>
 
         {/* accordian code */}
-        <div class="accordion" id="accordionExample">
-          <div class="accordion-item">
+        <div className="accordion" id="accordionExample">
+          <div className="accordion-item">
             <div
               id="collapseOne"
-              class="accordion-collapse collapse"
+              className="accordion-collapse collapse"
               aria-labelledby="headingOne"
               data-bs-parent="#accordionExample"
             >
-              <div class="accordion-body">
+              <div className="accordion-body">
                 {ordersRecieved.map((order) => {
                   return (
                     <>
@@ -169,29 +169,29 @@ const User = () => {
 
       {/* Modal for Editting Account Details */}
       <div
-        class="modal fade"
+        className="modal fade"
         id="staticBackdrop"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
                 Update Account Details
               </h5>
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
                 onClick={revertInfo}
               ></button>
             </div>
-            <div class="modal-body">
+            <div className="modal-body">
               <form>
                 <div className="mb-3">
                   <label htmlFor="first-name" className="form-label">
@@ -232,7 +232,7 @@ const User = () => {
                 </div>
               </form>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
                 className="btn btn-secondary"

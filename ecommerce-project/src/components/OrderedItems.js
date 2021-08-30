@@ -11,8 +11,9 @@ const OrderedItems = ({ items }) => {
                 {">>>"} {item.item_name}
               </h5>
               <div className="card-body">
-                <h5 className="card-title">Price : {item.price}</h5>
+                <h5 className="card-title">Price : ${item.price}</h5>
                 <p className="card-text">{item.description}</p>
+                <p>Quantity : {item.quantity}</p>
               </div>
             </div>
           </>
