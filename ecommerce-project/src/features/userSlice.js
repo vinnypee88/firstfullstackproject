@@ -13,7 +13,7 @@ export const loginUserApi = createAsyncThunk(
         "Content-Type": "application/json",
       },
     };
-    const loginApi = await fetch("http://localhost:4000/login", options);
+    const loginApi = await fetch("/login", options);
     const response = await loginApi.json();
     return response;
   }
@@ -30,7 +30,7 @@ export const updateUserInfo = createAsyncThunk(
         "Content-Type": "application/json",
       },
     };
-    const userUpdate = await fetch("http://localhost:4000/user", options);
+    const userUpdate = await fetch("/user", options);
     const response = await userUpdate.json();
     return response;
   }
@@ -44,7 +44,7 @@ export const logoutApi = createAsyncThunk("userSlice/logoutApi", async () => {
       "Content-Type": "application/json",
     },
   };
-  const logoutApi = await fetch("http://localhost:4000/logout", options);
+  const logoutApi = await fetch("/logout", options);
   const response = await logoutApi.json();
   return response;
 });
@@ -60,7 +60,7 @@ export const registerUserApi = createAsyncThunk(
         "Content-Type": "application/json",
       },
     };
-    const registerApi = await fetch("http://localhost:4000/signup", options);
+    const registerApi = await fetch("/signup", options);
     const response = await registerApi.json();
     return response;
   }
@@ -77,7 +77,7 @@ export const addToCartApi = createAsyncThunk(
         "Content-Type": "application/json",
       },
     };
-    const add = await fetch("http://localhost:4000/cart", options);
+    const add = await fetch("/cart", options);
     const response = await add.json();
     return response;
   }
@@ -93,7 +93,7 @@ export const reduceQuantityApi = createAsyncThunk(
         "Content-Type": "application/json",
       },
     };
-    const minus = await fetch("http://localhost:4000/cart", options);
+    const minus = await fetch("/cart", options);
     const response = await minus.json();
     return response;
   }
@@ -110,7 +110,7 @@ export const deleteItemApi = createAsyncThunk(
         "Content-Type": "application/json",
       },
     };
-    const add = await fetch("http://localhost:4000/cart", options);
+    const add = await fetch("/cart", options);
     const response = await add.json();
     return response;
   }
@@ -126,7 +126,7 @@ export const checkoutApi = createAsyncThunk(
         "Content-Type": "application/json",
       },
     };
-    const checkout = await fetch("http://localhost:4000/checkout", options);
+    const checkout = await fetch("/checkout", options);
     const response = await checkout.json();
     return response;
   }

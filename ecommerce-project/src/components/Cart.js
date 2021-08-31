@@ -61,7 +61,7 @@ const Cart = () => {
     const headers = {
       "Content-Type": "application/json",
     };
-    return fetch(`http://localhost:4000/payment`, {
+    return fetch(`/payment`, {
       method: "POST",
       headers,
       body: JSON.stringify(body),

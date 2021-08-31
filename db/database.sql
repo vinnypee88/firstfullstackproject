@@ -13,19 +13,26 @@ CREATE TABLE item (
     item_name varchar(50) not null,
     model_number varchar(50) not null,
     description varchar(50) not null,
-    stock integer
+    stock integer,
+    image varchar(50) not null,
+    price real NOT NULL
 );
 
 CREATE TABLE orders (
-    id varchar(100) primary key,
+    id integer(100) serial primary key,
     users_id INTEGER REFERENCES users(id),
-    item_id varchar(100) REFERENCES item(id),
-    quantity INTEGER, 
+    total_cost real, 
     date_of_order date
 );
 
+CREATE TABLE orders_items (
+    order_id integer(100) primary key,
+    item_id INTEGER REFERENCES users(id),
+    quantity INTEGER
+);
+
 CREATE TABLE cart (
-    users_id integer REFERENCES users(id),
-    item_id varchar(100) REFERENCES item(id),
+    users_id integer,
+    item_id varchar(100) ,
     quantity INTEGER
 );

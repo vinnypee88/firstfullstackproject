@@ -21,7 +21,7 @@ const path = require("path");
 
 //initialise express app
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 // //swagger code
 const swaggerDocument = yaml.safeLoad(
@@ -34,6 +34,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors({ origin: true, credentials: true }));
+
+if (process.env.NODE_ENV === "production") {
+  // serve static content from build
+  //npm run build creates build folder and we want to target the index.js file inside it. The dirname, client/build is directed to ir.
+  app.use(express.static(path.join(__dirname, "ecommerce-project/build")));
+}
 //ROUTES
 //products
 app.use("/products", getProducts);

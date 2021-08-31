@@ -16,7 +16,7 @@ const User = () => {
 
   const deleteAccount = async () => {
     console.log("deleted");
-    await fetch("http://localhost:4000/user", {
+    await fetch("/user", {
       method: "DELETE",
       credentials: "include",
     }).then(() => {

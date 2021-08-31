@@ -9,7 +9,7 @@ export const getOrders = createAsyncThunk("orderSlice/getOrders", async () => {
       "Content-Type": "application/json",
     },
   };
-  const orders = await fetch("http://localhost:4000/orders", options);
+  const orders = await fetch("/orders", options);
   const response = await orders.json();
   return response;
 });
@@ -26,7 +26,7 @@ export const getOrderDetails = createAsyncThunk(
         "Content-Type": "application/json",
       },
     };
-    const orders = await fetch("http://localhost:4000/orders/details", options);
+    const orders = await fetch("/orders/details", options);
     const response = await orders.json();
     return response;
   }
